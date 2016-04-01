@@ -16,8 +16,11 @@ function grafic_estacio(codi_estacio)
 	var c10 = d3.scale.category10();
 
 	//Escala X
-	var scaleX = d3.scale.linear()
-	          .range([0, width]);
+	var scaleX = d3.time.scale()
+	          .range([0, width])
+	          .nice(d3.time.year,1);
+	          //.tickFormat(d3.time.format("%Y"));
+	          //.tickFormat("%Y");
 	
 	//Escala Y
 	var scaleY = d3.scale.linear()
@@ -27,7 +30,6 @@ function grafic_estacio(codi_estacio)
 	var xAxis = d3.svg.axis()
 	            .scale(scaleX)
 	            .orient("bottom")
-	            .tickFormat(commasFormatter)
 				.tickPadding(8);
 	//Eix Y
 	var yAxis = d3.svg.axis()
@@ -37,7 +39,7 @@ function grafic_estacio(codi_estacio)
 	//Linia
 	var line = d3.svg.line()
 		.interpolate("cardinal") 
-	    .x(function(d) { return scaleX(d.data_any);})
+	    .x(function(d) { return scaleX(d.datatemps);})
 	    .y(function(d) { return scaleY(d.ibmwp);});
 
 
@@ -49,18 +51,28 @@ function grafic_estacio(codi_estacio)
 	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 	
 	//Consulta a la base de dades
-	var URL_query = 'https://ub.cartodb.com:443/api/v2/sql?q=select data_any,ibmwp,ibmwp_rang from public.indexbio where estacio like \'' + codi_estacio +'\' AND epoca=0 order by data_any asc';
+	var URL_query = 'https://ub.cartodb.com:443/api/v2/sql?q=select data as datatemps,data_any as dataany, ibmwp,ibmwp_rang from public.indexbio where estacio like \'' + codi_estacio +'\' AND epoca=0 order by data_any asc';
 	
 	query_server(URL_query).then
 	(
 			function(df)
 			{
+				
+				//Convertir les dates en objecte Date
+				_.each(df.rows, function(d)
+				{
+					var s = new Date();
+					s.setTime(Date.parse(d.datatemps));
+					d.datatemps = s;
+				});
+				
+				
 				//Calculo el domini (mínim i màxim) per l'escala associada a cada eix.
-				scaleX.domain(d3.extent(df.rows, function(d) { return d.data_any; }));
+				scaleX.domain(d3.extent(df.rows, function(d) { return d.datatemps; }));
 				scaleY.domain(d3.extent(df.rows, function(d) { return d.ibmwp; }));
 				
 				//Defineixo les etiquetes dels ticks que han d'apareixer
-				xAxis.tickValues(_.pluck(df.rows, 'data_any'));
+				//xAxis.tickValues(_.pluck(df.rows, 'datatemps'));
 
 				//Afegir eix X
 				svg.append("g")
@@ -100,7 +112,7 @@ function grafic_estacio(codi_estacio)
 					.enter().append("circle")
 					.attr("class", "dot")
 					.attr("r", 3.5)
-					.attr("cx", function(d) { return scaleX(d.data_any); })
+					.attr("cx", function(d) { return scaleX(d.datatemps); })
 					.attr("cy", function(d) { return scaleY(d.ibmwp); })
 					.style("fill", function(d) { return colores_google(d.ibmwp_rang); })
 					.append("svg:title")
