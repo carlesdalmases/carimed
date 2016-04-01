@@ -1,0 +1,145 @@
+body 
+{
+  padding-top: 10px;
+  padding-bottom: 15px;
+  background-color:#f3f3f4 !important;
+}
+
+.main
+{
+  
+}
+
+.service
+{
+	  padding: 5px;
+	  border:#999 solid 1px; 
+	  font-size:11px;
+	  border-radius: 6px;
+	  margin-top:2px;
+	  margin-bottom:2px;
+	  background-color:white;
+}
+
+.footer
+{ 
+	padding:20px; 
+	margin:15px 0 20px 0; 
+	background-color:#FFF; 
+	border-bottom:#000 solid 8px; 
+	font-size:11px; 
+	color:#999;
+	font-weight:bold;
+	overflow:hidden;
+}
+
+ul.dropdown-menu
+{
+	padding-left:5px;	
+}
+
+.folders_check
+{
+	position:relative !important;
+	margin-left:3px !important;	
+}
+
+.folders_check_label
+{
+	padding:5px !important;	
+	
+}
+
+.col-md-3
+{
+	width: initial;	
+}
+
+.col-md-9
+{
+	padding-left: 0px;
+	width: 79%;	
+}
+
+h4
+{
+	font-size: 14px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	display: inline-block;	
+}
+
+div.panel-footer > p
+{
+	margin: 0px;	
+}
+
+div.panel-body > p
+{
+	margin: 0px;	
+}
+
+div.panel-footer
+{
+	padding: 5px;	
+}
+
+
+div.panel-body
+{
+	padding: 5px;
+		
+}
+
+div.panel-heading
+{
+	padding: 5px;
+		
+}
+
+.panel-services
+{
+	margin-bottom: 0px;	
+}
+
+.btn_arcmap
+{
+	padding-top: 2px;
+	margin-right: 5px;
+	float: right;
+}
+
+.glyphicon-new-window:before
+{
+	margin: 3px;	
+}
+
+#buttonnews
+{
+	margin-bottom: 5px;	
+}
+
+#buttonnews:after
+{
+    font-family: "Glyphicons Halflings";
+    content: "  \e080";
+}
+
+#buttonnews.collapsed:after{
+    content:"  \e114";
+}
+
+.panel-header
+{
+	margin-bottom: 10px;	
+}
+
+#ul_news
+{
+	font-size: 12px;	
+}
+
+.badge
+{
+	margin-left: 3px;	
+}
