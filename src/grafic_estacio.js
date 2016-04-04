@@ -17,11 +17,8 @@ function grafic_estacio(codi_estacio)
 
 	//Escala X
 	var scaleX = d3.time.scale()
-	          .range([0, width])
-	          .nice(d3.time.year,1);
-	          //.tickFormat(d3.time.format("%Y"));
-	          //.tickFormat("%Y");
-	
+	          .range([0, width]);
+
 	//Escala Y
 	var scaleY = d3.scale.linear()
 	          .range([height, 0]);
@@ -38,7 +35,7 @@ function grafic_estacio(codi_estacio)
 
 	//Linia
 	var line = d3.svg.line()
-		.interpolate("cardinal") 
+		.interpolate("monotone") 
 	    .x(function(d) { return scaleX(d.datatemps);})
 	    .y(function(d) { return scaleY(d.ibmwp);});
 
@@ -71,9 +68,16 @@ function grafic_estacio(codi_estacio)
 				scaleX.domain(d3.extent(df.rows, function(d) { return d.datatemps; }));
 				scaleY.domain(d3.extent(df.rows, function(d) { return d.ibmwp; }));
 				
-				//Defineixo les etiquetes dels ticks que han d'apareixer
-				//xAxis.tickValues(_.pluck(df.rows, 'datatemps'));
-
+				
+				
+				//Defineixo les etiquetes dels ticks que han d'apareixer.
+				//Primer obtinc un array dels anys amb dades, sense repeticions.
+				var year_uniq = _.uniq(_.map(df.rows, function(d){return d.datatemps.getFullYear();}),true);
+				//Array de Date objectes, s'estableixen a 1/1/YYYY
+				var year_ticks = [];
+				_.each(year_uniq, function(d){year_ticks.push(new Date(d,0,1))});
+				xAxis.tickValues(year_ticks);
+				
 				//Afegir eix X
 				svg.append("g")
 					.attr("class", "x axis")
@@ -116,7 +120,7 @@ function grafic_estacio(codi_estacio)
 					.attr("cy", function(d) { return scaleY(d.ibmwp); })
 					.style("fill", function(d) { return colores_google(d.ibmwp_rang); })
 					.append("svg:title")
-					.text(function(d, i) { return "IBMWP: " + d.ibmwp + "\nRang: " + d.ibmwp_rang; });
+					.text(function(d, i) { return "IBMWP: " + d.ibmwp + "\nRang: " + d.ibmwp_rang + "\nData: "+d.datatemps.toLocaleDateString();});
 
 				graph_title();
 

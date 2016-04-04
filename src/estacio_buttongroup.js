@@ -20,6 +20,7 @@ function estacio_buttongroup()
 							var $newButton = $("<button/>")
 									.addClass("btn btn-default btn-xs")
 									.attr("type", "button")
+									.attr("style", "margin:1px")
 									.attr("value", d.estacio)
 									.on("click", function(){grafic_estacio(this.value);})
 									.html(d.estacio);
