@@ -65,14 +65,17 @@ function grafic_estacio(codi_estacio)
 				
 				
 				//Calculo el domini (mínim i màxim) per l'escala associada a cada eix.
-				scaleX.domain(d3.extent(df.rows, function(d) { return d.datatemps; }));
-				scaleY.domain(d3.extent(df.rows, function(d) { return d.ibmwp; }));
+				scaleX.domain(d3.extent(df.rows, function(d) { return d.datatemps; }))
+				//Arrodoneixo el domini a anys sencers, per dalt i per baix
+				scaleX.nice(d3.time.year,1);
 				
+				scaleY.domain(d3.extent(df.rows, function(d) { return d.ibmwp; }));
 				
 				
 				//Defineixo les etiquetes dels ticks que han d'apareixer.
 				//Primer obtinc un array dels anys amb dades, sense repeticions.
 				var year_uniq = _.uniq(_.map(df.rows, function(d){return d.datatemps.getFullYear();}),true);
+				
 				//Array de Date objectes, s'estableixen a 1/1/YYYY
 				var year_ticks = [];
 				_.each(year_uniq, function(d){year_ticks.push(new Date(d,0,1))});
