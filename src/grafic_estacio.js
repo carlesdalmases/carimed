@@ -78,6 +78,7 @@ function grafic_estacio(codi_estacio)
 				
 				//Array de Date objectes, s'estableixen a 1/1/YYYY
 				var year_ticks = [];
+				year_ticks.push(scaleX.domain()[1]);
 				_.each(year_uniq, function(d){year_ticks.push(new Date(d,0,1))});
 				xAxis.tickValues(year_ticks);
 				
